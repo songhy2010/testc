@@ -18,7 +18,8 @@ namespace testc
         }
 
         private void butclose_Click(object sender, EventArgs e)
-        {   
+        {
+                
                 Form1 showForm1 = new Form1();
                 showForm1.Show();
         }

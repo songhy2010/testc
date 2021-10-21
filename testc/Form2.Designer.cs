@@ -36,7 +36,7 @@ namespace testc
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.GridRecord = new System.Windows.Forms.DataGridView();
             this.코드 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.명칭 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.비고 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,7 +45,9 @@ namespace testc
             this.label4 = new System.Windows.Forms.Label();
             this.butclose = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.butSave = new System.Windows.Forms.Button();
+            this.butNew = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.GridRecord)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -105,18 +107,18 @@ namespace testc
             this.label2.TabIndex = 6;
             this.label2.Text = "명칭";
             // 
-            // dataGridView1
+            // GridRecord
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.GridRecord.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GridRecord.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.코드,
             this.명칭,
             this.비고});
-            this.dataGridView1.Location = new System.Drawing.Point(443, 77);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(345, 165);
-            this.dataGridView1.TabIndex = 7;
+            this.GridRecord.Location = new System.Drawing.Point(443, 77);
+            this.GridRecord.Name = "GridRecord";
+            this.GridRecord.RowTemplate.Height = 25;
+            this.GridRecord.Size = new System.Drawing.Size(345, 165);
+            this.GridRecord.TabIndex = 7;
             // 
             // 코드
             // 
@@ -175,17 +177,37 @@ namespace testc
             this.panel1.Size = new System.Drawing.Size(435, 138);
             this.panel1.TabIndex = 12;
             // 
+            // butSave
+            // 
+            this.butSave.Location = new System.Drawing.Point(597, 1);
+            this.butSave.Name = "butSave";
+            this.butSave.Size = new System.Drawing.Size(75, 23);
+            this.butSave.TabIndex = 13;
+            this.butSave.Text = "저장";
+            this.butSave.UseVisualStyleBackColor = true;
+            // 
+            // butNew
+            // 
+            this.butNew.Location = new System.Drawing.Point(498, 1);
+            this.butNew.Name = "butNew";
+            this.butNew.Size = new System.Drawing.Size(75, 23);
+            this.butNew.TabIndex = 14;
+            this.butNew.Text = "신규";
+            this.butNew.UseVisualStyleBackColor = true;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.butNew);
+            this.Controls.Add(this.butSave);
             this.Controls.Add(this.butclose);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.butSearch);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.GridRecord);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox3);
@@ -195,7 +217,7 @@ namespace testc
             this.Controls.Add(this.panel1);
             this.Name = "Form2";
             this.Text = "Form2";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridRecord)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,7 +232,7 @@ namespace testc
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView GridRecord;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -219,5 +241,7 @@ namespace testc
         private System.Windows.Forms.DataGridViewTextBoxColumn 코드;
         private System.Windows.Forms.DataGridViewTextBoxColumn 명칭;
         private System.Windows.Forms.DataGridViewTextBoxColumn 비고;
+        private System.Windows.Forms.Button butSave;
+        private System.Windows.Forms.Button butNew;
     }
 }

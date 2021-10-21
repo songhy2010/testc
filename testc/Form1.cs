@@ -21,7 +21,6 @@ namespace testc
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
             Form2 showForm2 = new Form2();
             showForm2.Show();
         }

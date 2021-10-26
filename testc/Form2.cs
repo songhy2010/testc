@@ -202,8 +202,9 @@ namespace testc
             if (this.bData ? this.updatePost() : this.insertPost())
             {
                 this.init_InputBox(true);
-                if (this.spCont.Visible)
-                    this.bindData(this.makeSearchCondition());
+                MessageBox.Show("저장완료");
+                /*if (this.spCont.Visible)
+                    this.bindData(this.makeSearchCondition());*/
 
             }
             this.butSave.Enabled = true;
@@ -243,10 +244,11 @@ namespace testc
                 SqlCommand sCommand = new SqlCommand(stringBuilder.ToString());
                 sCommand.Parameters.AddWithValue("@명칭", (object)this.textBox2.Text);
                 sCommand.Parameters.AddWithValue("@비고", (object)this.textBox3.Text);
+                
                 flag = wnAdo.SqlCommandEtc(sCommand, "Insert_" + this.s테이블명 + "_Table", Common.p_strConn) > 0;
                 if (!flag)
                 {
-                    int num1 = (int)MessageBox.Show("저장 중에 오류가 발생했습니다.");
+                    int num1 = (int)MessageBox.Show("저장insert 중에 오류가 발생했습니다.");
                 }
             }
             catch (Exception ex)
@@ -282,7 +284,7 @@ namespace testc
                 flag = wnAdo.SqlCommandEtc(sCommand, "Save_" + this.s테이블명 + "_Table", Common.p_strConn) > 0;
                 if (!flag)
                 {
-                    int num = (int)MessageBox.Show("저장 중에 오류가 발생했습니다.");
+                    int num = (int)MessageBox.Show("저장update 중에 오류가 발생했습니다.");
                 }
             }
             catch (Exception ex)

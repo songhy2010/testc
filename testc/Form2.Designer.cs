@@ -29,6 +29,7 @@ namespace testc
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.button1 = new System.Windows.Forms.Button();
             this.butSearch = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -37,9 +38,6 @@ namespace testc
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.GridRecord = new System.Windows.Forms.DataGridView();
-            this.코드 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.명칭 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.비고 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -47,6 +45,10 @@ namespace testc
             this.panel1 = new System.Windows.Forms.Panel();
             this.butSave = new System.Windows.Forms.Button();
             this.butNew = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.코드 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.명칭 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.비고 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GridRecord)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,6 +69,7 @@ namespace testc
             this.butSearch.TabIndex = 1;
             this.butSearch.Text = "찾기";
             this.butSearch.UseVisualStyleBackColor = true;
+            this.butSearch.Click += new System.EventHandler(this.butSearch_Click);
             // 
             // textBox1
             // 
@@ -109,6 +112,13 @@ namespace testc
             // 
             // GridRecord
             // 
+            this.GridRecord.AllowUserToAddRows = false;
+            this.GridRecord.AllowUserToDeleteRows = false;
+            this.GridRecord.AllowUserToOrderColumns = true;
+            this.GridRecord.AllowUserToResizeRows = false;
+            this.GridRecord.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.GridRecord.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.GridRecord.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.GridRecord.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.코드,
@@ -119,21 +129,6 @@ namespace testc
             this.GridRecord.RowTemplate.Height = 25;
             this.GridRecord.Size = new System.Drawing.Size(345, 165);
             this.GridRecord.TabIndex = 7;
-            // 
-            // 코드
-            // 
-            this.코드.HeaderText = "코드";
-            this.코드.Name = "코드";
-            // 
-            // 명칭
-            // 
-            this.명칭.HeaderText = "명칭";
-            this.명칭.Name = "명칭";
-            // 
-            // 비고
-            // 
-            this.비고.HeaderText = "비고";
-            this.비고.Name = "비고";
             // 
             // textBox4
             // 
@@ -162,7 +157,7 @@ namespace testc
             // 
             // butclose
             // 
-            this.butclose.Location = new System.Drawing.Point(694, 1);
+            this.butclose.Location = new System.Drawing.Point(713, 1);
             this.butclose.Name = "butclose";
             this.butclose.Size = new System.Drawing.Size(75, 23);
             this.butclose.TabIndex = 11;
@@ -179,27 +174,55 @@ namespace testc
             // 
             // butSave
             // 
-            this.butSave.Location = new System.Drawing.Point(597, 1);
+            this.butSave.Location = new System.Drawing.Point(632, 1);
             this.butSave.Name = "butSave";
             this.butSave.Size = new System.Drawing.Size(75, 23);
             this.butSave.TabIndex = 13;
             this.butSave.Text = "저장";
             this.butSave.UseVisualStyleBackColor = true;
+            this.butSave.Click += new System.EventHandler(this.butSave_Click);
             // 
             // butNew
             // 
-            this.butNew.Location = new System.Drawing.Point(498, 1);
+            this.butNew.Location = new System.Drawing.Point(551, 1);
             this.butNew.Name = "butNew";
             this.butNew.Size = new System.Drawing.Size(75, 23);
             this.butNew.TabIndex = 14;
             this.butNew.Text = "신규";
             this.butNew.UseVisualStyleBackColor = true;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(466, 1);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 15;
+            this.button2.Text = "삭제";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // 코드
+            // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+            this.코드.DefaultCellStyle = dataGridViewCellStyle1;
+            this.코드.HeaderText = "코드";
+            this.코드.Name = "코드";
+            // 
+            // 명칭
+            // 
+            this.명칭.HeaderText = "명칭";
+            this.명칭.Name = "명칭";
+            // 
+            // 비고
+            // 
+            this.비고.HeaderText = "비고";
+            this.비고.Name = "비고";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.butNew);
             this.Controls.Add(this.butSave);
             this.Controls.Add(this.butclose);
@@ -238,10 +261,11 @@ namespace testc
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button butclose;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button butSave;
+        private System.Windows.Forms.Button butNew;
+        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridViewTextBoxColumn 코드;
         private System.Windows.Forms.DataGridViewTextBoxColumn 명칭;
         private System.Windows.Forms.DataGridViewTextBoxColumn 비고;
-        private System.Windows.Forms.Button butSave;
-        private System.Windows.Forms.Button butNew;
     }
 }

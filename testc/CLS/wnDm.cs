@@ -5226,14 +5226,15 @@ namespace smartMain.CLS
             return this.wAdo.SqlCommandSelect(sCommand, sConn);
         }
 
-        public DataTable fn_분류코드_List(string sTable, string condition, string sConn)
+        public DataTable fn_분류코드_List(string sTable, string condition, string sConn )
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("select               ");
             stringBuilder.AppendLine("     a.*             ");
             stringBuilder.AppendLine(" from " + sTable + " a ");
-            stringBuilder.AppendLine(" where a.사업자번호 = '" + Common.p_strCompID + "' ");
-            stringBuilder.AppendLine("     and a.지점코드 = '" + Common.p_strSpotCode + "' ");
+            /*stringBuilder.AppendLine(" where a.사업자번호 = '" + Common.p_strCompID + "' ");*/
+            /*stringBuilder.AppendLine("     and a.지점코드 = '" + Common.p_strSpotCode + "' ");*/
+            stringBuilder.AppendLine(" where 1=1 ");
             stringBuilder.AppendLine(" " + condition + "   ");
             stringBuilder.AppendLine(" order by a.코드 asc ");
             SqlCommand sCommand = new SqlCommand(stringBuilder.ToString());

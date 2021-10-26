@@ -17,7 +17,7 @@ namespace testc
     {
 
         private string s구분 = "1";
-        private string s테이블명;
+        private string s테이블명 = "P_거래처유형";
         private bool bData = false;
         private SplitContainer spCont;
         public Form2()
@@ -121,7 +121,18 @@ namespace testc
             return stringBuilder.ToString();
         }
 
-  
+
+
+        private void butSearch_Click(object sender, EventArgs e)
+        {
+            this.init_InputBox(true);
+            this.bindData(this.makeSearchCondition());
+
+
+        }
+
+
+
         private bool validate_InputBox()
         {
             bool flag = true;
@@ -147,13 +158,7 @@ namespace testc
             return flag;
         }
 
-        private void butSearch_Click(object sender, EventArgs e)
-        {
-            this.init_InputBox(true);
-            this.bindData(this.makeSearchCondition());
-            
-
-        }
+       
 
 
         private bool get_Dup_Check(string sNew, string sOld)

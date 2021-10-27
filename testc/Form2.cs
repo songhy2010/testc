@@ -19,7 +19,12 @@ namespace testc
         private string s구분 = "1";
         private string s테이블명 = "P_거래처유형";
         private bool bData = false;
-        private SplitContainer spCont;
+        
+        private int iCnt;
+        private string strValue;
+        private wnGConstant wnG = new wnGConstant();
+        private Panel panData;
+        private Panel panBody;
         public Form2()
         {
             InitializeComponent();
@@ -30,12 +35,7 @@ namespace testc
                 + ";PASSWORD = ##wkdxj123;";
         }
 
-        private void butclose_Click(object sender, EventArgs e)
-        {
-                
-                Form1 showForm1 = new Form1();
-                showForm1.Show();
-        }
+        private void butclose_Click(object sender, EventArgs e) => this.Close();
 
         private void bindData(string condition)
         {
@@ -93,15 +93,18 @@ namespace testc
 
         private void init_InputBox(bool bNew)
         {
-           
+            this.wnG.Form_Clear(this.panData.Controls);
+            /*this.wnG.Form_Clear(this.panBody.Controls);*/
             if (bNew)
             {
-                
+                this.bData = false;
+                /*this.butDelete.Enabled = true;*/
                 this.textBox1.Enabled = true;
             }
             else
             {
-                
+                this.bData = true;
+                /*this.butDelete.Enabled = false;*/
                 this.textBox1.Enabled = false;
             }
         }
@@ -293,6 +296,119 @@ namespace testc
                 int num = (int)MessageBox.Show("데이터베이스에 문제가 발생했습니다.");
             }
             return flag;
+        }
+
+        private void butDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("자료를 삭제하시겠습니까?", "삭제여부", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel || !this.deletePost())
+                return;
+            this.init_InputBox(true);
+            this.bindData(this.makeSearchCondition());
+        }
+        
+
+        private bool deletePost()
+        {
+            bool flag = false;
+            try
+            {
+                wnDm wnDm = new wnDm();
+                wnAdo wnAdo = new wnAdo();
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendLine(" delete from " + this.s테이블명 + " ");
+                stringBuilder.AppendLine(" where 사업자번호 = '" + Common.p_strCompID + "' ");
+                if (this.s구분 != "3" && this.s구분 != "4")
+                    stringBuilder.AppendLine("     and 지점코드 = '" + Common.p_strSpotCode + "' ");
+                stringBuilder.AppendLine("     and 코드 = @p1 ");
+                SqlCommand sCommand = new SqlCommand(stringBuilder.ToString());
+                sCommand.Parameters.AddWithValue("@p1", (object)this.textBox1.Text);
+                flag = wnAdo.SqlCommandEtc(sCommand, "Delete_" + this.s테이블명 + "_Table", Common.p_strConn) > 0;
+                if (!flag)
+                {
+                    int num = (int)MessageBox.Show("삭제 중에 오류가 발생했습니다.");
+                }
+            }
+            catch (Exception ex)
+            {
+                int num = (int)MessageBox.Show("데이터베이스에 문제가 발생했습니다.");
+                wnLog.writeLog(100, ex.Message + " - " + ex.ToString());
+            }
+            return flag;
+        }
+
+
+
+        private void GridRecord_DoubleClick(object sender, EventArgs e)
+        {
+            if (this.GridRecord.CurrentCell == null || this.GridRecord.CurrentCell.RowIndex < 0 || this.GridRecord.CurrentCell.ColumnIndex < 0)
+                return;
+            this.iCnt = this.GridRecord.CurrentCell.RowIndex;
+            this.strValue = (string)this.GridRecord.Rows[this.iCnt].Cells[0].Value ?? "";
+            this.getDetailPost(this.strValue);
+            
+        }
+
+        private void GridRecord_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Return)
+            {
+                e.Handled = true;
+                this.GridRecord_DoubleClick((object)this, (EventArgs)null);
+            }
+            if (e.KeyCode != Keys.Escape)
+                return;
+            e.Handled = true;
+            this.textBox4.Focus();
+        }
+        private void getDetailPost(string sKey)
+        {
+            if (this.s구분 == "3" || this.s구분 == "4")
+            {
+                this.getDetailPost2(sKey);
+            }
+            else
+            {
+                this.init_InputBox(false);
+                try
+                {
+                    DataTable dataTable = new wnDm().fn_분류코드_Detail(this.s테이블명, sKey, Common.p_strConn);
+                    if (dataTable != null && dataTable.Rows.Count > 0)
+                    {
+                        this.textBox1.Text = dataTable.Rows[0]["코드"].ToString();
+                        this.textBox2.Text = dataTable.Rows[0]["명칭"].ToString();
+                        this.textBox3.Text = dataTable.Rows[0]["비고"].ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    wnLog.writeLog(100, ex.Message + " - " + ex.ToString());
+                }
+            }
+        }
+        private void getDetailPost2(string sKey)
+        {
+            this.init_InputBox(false);
+            try
+            {
+                DataTable dataTable = new wnDm().fn_분류코드2_Detail(this.s테이블명, sKey, Common.p_strConn);
+                if (dataTable == null || dataTable.Rows.Count <= 0)
+                    return;
+                this.textBox1.Text = dataTable.Rows[0]["코드"].ToString();
+                this.textBox2.Text = dataTable.Rows[0]["명칭"].ToString();
+                this.textBox3.Text = dataTable.Rows[0]["비고"].ToString();
+            }
+            catch (Exception ex)
+            {
+                wnLog.writeLog(100, ex.Message + " - " + ex.ToString());
+            }
+        }
+
+        private void inputLast_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Return)
+                return;
+            e.Handled = true;
+            this.butSave.Focus();
         }
     }
 }

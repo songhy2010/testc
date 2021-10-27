@@ -5,8 +5,6 @@
 // Assembly location: E:\Work\smart 장터지기\smartMain.exe
 
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -36,7 +34,7 @@ namespace smartMain.CLS
         private SqlDataAdapter adoAdapter = new SqlDataAdapter();
         private System.Data.DataTable adoTable = new System.Data.DataTable();
         private DataRow adoRow;
-        private object TextNumber;
+        /*private object conTextNumber;*/
 
         [DllImport("imm32.dll")]
         private static extern IntPtr ImmGetDefaultIMEWnd(IntPtr hWnd);
@@ -56,20 +54,11 @@ namespace smartMain.CLS
             return wnGConstant.SendMessage(wnGConstant.ImmGetDefaultIMEWnd(process.MainWindowHandle), 643U, new IntPtr(5), new IntPtr(0)).ToInt32() != 0 ? 1 : 0;
         }
 
-        
-       
 
-       
 
-       
 
-     
 
-       
 
-      
-
-     
 
         public void init_RowText(DataGridView dgv, int nRow)
         {
@@ -102,7 +91,129 @@ namespace smartMain.CLS
             dgv.Rows[nRow].Cells[28].Value = (object)"0";
         }
 
-     
+        public void get_Prod_Info(
+          DataGridView dgv,
+          int nRow,
+          string sCode,
+          string s근무형태코드,
+          string s거래처부가세코드,
+          string sGubun,
+          string sCust,
+          string s단가구분)
+        {
+            try
+            {
+                wnDm wnDm = new wnDm();
+                Decimal num1 = 0M;
+                Decimal num2 = 0M;
+                Decimal num3 = 0M;
+                bool flag = false;
+                if (s단가구분 != "" && s단가구분 != "_F_")
+                {
+                    System.Data.DataTable dataTable = wnDm.fn_상품이벤트단가_List(" and a.상품코드 = '" + sCode + "' and a.단가구분 = '" + s단가구분 + "' ", Common.p_strConn);
+                    if (dataTable != null && dataTable.Rows.Count > 0)
+                    {
+                        flag = true;
+                        num1 = Decimal.Parse(dataTable.Rows[0]["낱개판매단가"].ToString());
+                        num2 = Decimal.Parse(dataTable.Rows[0]["중간판매단가"].ToString());
+                        num3 = Decimal.Parse(dataTable.Rows[0]["박스판매단가"].ToString());
+                    }
+                }
+                System.Data.DataTable dataTable1 = wnDm.fn_상품_Detail(sCode, Common.p_strConn);
+                if (dataTable1 == null || dataTable1.Rows.Count <= 0)
+                    return;
+                dgv.Rows[nRow].Cells[5].Value = (object)dataTable1.Rows[0]["상품명"].ToString();
+                dgv.Rows[nRow].Cells[6].Value = (object)dataTable1.Rows[0]["규격"].ToString();
+                if (sGubun == "매출")
+                {
+                    if (s근무형태코드 == "1")
+                    {
+                        dgv.Rows[nRow].Cells[9].Value = (object)Decimal.Parse(dataTable1.Rows[0]["박스기본판매수량"].ToString()).ToString(Common.p_strFormatAmount);
+                        dgv.Rows[nRow].Cells[10].Value = (object)Decimal.Parse(dataTable1.Rows[0]["중간기본판매수량"].ToString()).ToString(Common.p_strFormatAmount);
+                        dgv.Rows[nRow].Cells[11].Value = (object)Decimal.Parse(dataTable1.Rows[0]["낱개기본판매수량"].ToString()).ToString(Common.p_strFormatAmount);
+                        dgv.Rows[nRow].Cells[12].Value = (object)"0";
+                        dgv.Rows[nRow].Cells[13].Value = (object)Decimal.Parse(dataTable1.Rows[0]["박스도매단가"].ToString()).ToString(Common.p_strFormatUnit);
+                        dgv.Rows[nRow].Cells[14].Value = (object)Decimal.Parse(dataTable1.Rows[0]["낱개도매단가"].ToString()).ToString(Common.p_strFormatUnit);
+                    }
+                    else
+                    {
+                        dgv.Rows[nRow].Cells[9].Value = (object)Decimal.Parse(dataTable1.Rows[0]["박스기본판매수량"].ToString()).ToString(Common.p_strFormatAmount);
+                        dgv.Rows[nRow].Cells[10].Value = (object)Decimal.Parse(dataTable1.Rows[0]["중간기본판매수량"].ToString()).ToString(Common.p_strFormatAmount);
+                        dgv.Rows[nRow].Cells[11].Value = (object)Decimal.Parse(dataTable1.Rows[0]["낱개기본판매수량"].ToString()).ToString(Common.p_strFormatAmount);
+                        dgv.Rows[nRow].Cells[12].Value = (object)"0";
+                        dgv.Rows[nRow].Cells[13].Value = (object)Decimal.Parse(dataTable1.Rows[0]["박스판매단가"].ToString()).ToString(Common.p_strFormatUnit);
+                        dgv.Rows[nRow].Cells[14].Value = (object)Decimal.Parse(dataTable1.Rows[0]["낱개판매단가"].ToString()).ToString(Common.p_strFormatUnit);
+                    }
+                    dgv.Rows[nRow].Cells[15].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[16].Value = (object)"0";
+                    DataGridViewCell cell1 = dgv.Rows[nRow].Cells[18];
+                    Decimal num4 = Decimal.Parse(dataTable1.Rows[0]["박스입고단가"].ToString());
+                    string str1 = num4.ToString(Common.p_strFormatUnit);
+                    cell1.Value = (object)str1;
+                    DataGridViewCell cell2 = dgv.Rows[nRow].Cells[19];
+                    num4 = Decimal.Parse(dataTable1.Rows[0]["낱개입고단가"].ToString());
+                    string str2 = num4.ToString(Common.p_strFormatUnit);
+                    cell2.Value = (object)str2;
+                    dgv.Rows[nRow].Cells[20].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[21].Value = (object)"";
+                    dgv.Rows[nRow].Cells[22].Value = (object)dataTable1.Rows[0]["입수수량"].ToString();
+                    dgv.Rows[nRow].Cells[23].Value = (object)dataTable1.Rows[0]["중간입수수량"].ToString();
+                    dgv.Rows[nRow].Cells[24].Value = (object)dataTable1.Rows[0]["과세구분"].ToString();
+                    dgv.Rows[nRow].Cells[25].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[26].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[27].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[28].Value = (object)"0";
+                    if (s단가구분 == "")
+                    {
+                        string s거래구분 = (string)dgv.Rows[nRow].Cells[17].Value ?? "";
+                        this.get_Prod_Info_Old_매출(dgv, nRow, sCust, sCode, s거래구분);
+                    }
+                    else if (flag)
+                    {
+                        dgv.Rows[nRow].Cells[17].Value = (object)"2";
+                        dgv.Rows[nRow].Cells[13].Value = (object)num3.ToString(Common.p_strFormatUnit);
+                        dgv.Rows[nRow].Cells[14].Value = (object)num1.ToString(Common.p_strFormatUnit);
+                    }
+                }
+                if (sGubun == "매입")
+                {
+                    dgv.Rows[nRow].Cells[9].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[10].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[11].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[12].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[13].Value = (object)Decimal.Parse(dataTable1.Rows[0]["박스입고단가"].ToString()).ToString(Common.p_strFormatUnit);
+                    dgv.Rows[nRow].Cells[14].Value = (object)Decimal.Parse(dataTable1.Rows[0]["낱개입고단가"].ToString()).ToString(Common.p_strFormatUnit);
+                    dgv.Rows[nRow].Cells[15].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[16].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[18].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[19].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[20].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[21].Value = (object)"";
+                    dgv.Rows[nRow].Cells[22].Value = (object)dataTable1.Rows[0]["입수수량"].ToString();
+                    dgv.Rows[nRow].Cells[23].Value = (object)dataTable1.Rows[0]["중간입수수량"].ToString();
+                    dgv.Rows[nRow].Cells[24].Value = (object)dataTable1.Rows[0]["과세구분"].ToString();
+                    dgv.Rows[nRow].Cells[25].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[26].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[27].Value = (object)"0";
+                    dgv.Rows[nRow].Cells[28].Value = (object)"0";
+                    if (s단가구분 == "")
+                    {
+                        string s거래구분 = (string)dgv.Rows[nRow].Cells[17].Value ?? "";
+                        this.get_Prod_Info_Old_매입(dgv, nRow, sCust, sCode, s거래구분);
+                    }
+                    else if (flag)
+                    {
+                        dgv.Rows[nRow].Cells[17].Value = (object)"2";
+                        dgv.Rows[nRow].Cells[13].Value = (object)num3.ToString(Common.p_strFormatUnit);
+                        dgv.Rows[nRow].Cells[14].Value = (object)num1.ToString(Common.p_strFormatUnit);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                wnLog.writeLog(100, ex.Message + " - " + ex.ToString());
+            }
+        }
 
         public void get_Prod_Info_창고이동(DataGridView dgv, int nRow, string sCode)
         {
@@ -977,7 +1088,7 @@ namespace smartMain.CLS
         }
 
         public void setCombo_업체용_일반(
-          ComboBox cmb,
+         ComboBox cmb,
           string sCode,
           string sName,
           string sTable,
@@ -1239,7 +1350,7 @@ namespace smartMain.CLS
             }
         }
 
-        
+
 
         public void set_공용일자일시(DateTimePicker dtp)
         {
@@ -1672,7 +1783,52 @@ namespace smartMain.CLS
             sCombo.DataSource = (object)this.adoTable;
         }
 
-       
+        public void Form_Clear(Control.ControlCollection sCtrols)
+        {
+            foreach (Control sCtrol in (ArrangedElementCollection)sCtrols)
+            {
+                switch (sCtrol)
+                {
+                    case System.Windows.Forms.TextBox _:
+                        System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sCtrol;
+                        if (textBox.Text.Trim().Length > 0)
+                            textBox.Text = "";
+                        /*if (textBox.GetType().Name == "conTextNumber")
+                        {
+                            conTextNumber TextNumber = (conTextNumber)sCtrol;
+                            conTextNumber._FormatString = "#,0";
+                            if (conTextNumber._ValueType == "수량")
+                                conTextNumber._FormatString = Common.p_strFormatAmount;
+                            if (conTextNumber._ValueType == "단가")
+                                conTextNumber._FormatString = Common.p_strFormatUnit;
+                            textBox.Text = 0.ToString(conTextNumber._FormatString);
+                            break;
+                        }*/
+                        break;
+                    case System.Windows.Forms.CheckBox _:
+                        ((System.Windows.Forms.CheckBox)sCtrol).Checked = false;
+                        break;
+                    case RadioButton _:
+                        ((RadioButton)sCtrol).Checked = false;
+                        break;
+                    case MaskedTextBox _:
+                        sCtrol.Text = "";
+                        break;
+                    /* case Label _:
+                         sCtrol.Text = "";*/
+                    /*break;*/
+                    case RichTextBox _:
+                        sCtrol.Text = "";
+                        break;
+                    case NumericUpDown _:
+                        sCtrol.Text = "";
+                        break;
+                    case DateTimePicker _:
+                        this.set_공용일자일시((DateTimePicker)sCtrol);
+                        break;
+                }
+            }
+        }
 
         public Image ConvertByteToImage(byte[] pByte)
         {
@@ -1742,175 +1898,8 @@ namespace smartMain.CLS
             return buffer;
         }
 
-        public void convert_to_CSV_XLS(DataGridView dGV, string filename)
-        {
-            try
-            {
-                File.Delete(filename);
-                File.Delete(filename + ".csv");
-                DataGridViewCheckBoxColumn viewCheckBoxColumn = new DataGridViewCheckBoxColumn();
-                StringBuilder stringBuilder = new StringBuilder();
-                string str = "";
-                for (int index = 0; index < dGV.Columns.Count; ++index)
-                {
-                    if (dGV.Columns[index].Visible && dGV.Columns[index].CellType != viewCheckBoxColumn.CellType)
-                        str = str.ToString() + "\"" + Convert.ToString(dGV.Columns[index].HeaderText) + "\"" + CultureInfo.CurrentCulture.TextInfo.ListSeparator;
-                }
-                stringBuilder.Append(str + "\r\n");
-                for (int index1 = 0; index1 < dGV.RowCount; ++index1)
-                {
-                    for (int index2 = 0; index2 < dGV.Columns.Count; ++index2)
-                    {
-                        if (dGV.Columns[index2].Visible && dGV.Columns[index2].CellType != viewCheckBoxColumn.CellType)
-                        {
-                            if (dGV[index2, index1] is DataGridViewImageCell)
-                                stringBuilder.AppendFormat("\"{0}\"", (object)Convert.ToString(dGV.Rows[index1].Cells[index2].Tag));
-                            else
-                                stringBuilder.AppendFormat("\"{0}\"", (object)Convert.ToString(dGV.Rows[index1].Cells[index2].Value));
-                            stringBuilder.Append(CultureInfo.CurrentCulture.TextInfo.ListSeparator);
-                        }
-                    }
-                    stringBuilder.Append("\r\n");
-                }
-                byte[] bytes = Encoding.GetEncoding(949).GetBytes(stringBuilder.ToString());
-                FileStream fileStream = new FileStream(filename + ".csv", FileMode.CreateNew);
-                BinaryWriter binaryWriter = new BinaryWriter((Stream)fileStream);
-                binaryWriter.Write(bytes, 0, bytes.Length);
-                binaryWriter.Flush();
-                binaryWriter.Close();
-                fileStream.Close();
-                object FieldInfo = (object)new int[30, 2]
-                {
-          {
-            1,
-            2
-          },
-          {
-            2,
-            2
-          },
-          {
-            3,
-            2
-          },
-          {
-            4,
-            2
-          },
-          {
-            5,
-            2
-          },
-          {
-            6,
-            2
-          },
-          {
-            7,
-            2
-          },
-          {
-            8,
-            2
-          },
-          {
-            9,
-            2
-          },
-          {
-            10,
-            2
-          },
-          {
-            11,
-            2
-          },
-          {
-            12,
-            2
-          },
-          {
-            13,
-            2
-          },
-          {
-            14,
-            2
-          },
-          {
-            15,
-            2
-          },
-          {
-            16,
-            2
-          },
-          {
-            17,
-            2
-          },
-          {
-            18,
-            2
-          },
-          {
-            19,
-            2
-          },
-          {
-            20,
-            2
-          },
-          {
-            21,
-            2
-          },
-          {
-            22,
-            2
-          },
-          {
-            23,
-            2
-          },
-          {
-            24,
-            2
-          },
-          {
-            25,
-            2
-          },
-          {
-            26,
-            2
-          },
-          {
-            27,
-            2
-          },
-          {
-            28,
-            2
-          },
-          {
-            29,
-            2
-          },
-          {
-            30,
-            2
-          }
-                };
-                
-            }
-            catch
-            {
-                int num = (int)MessageBox.Show("저장될 파일이 열렸는지 확인하세요.");
-            }
-        }
 
-     
+
 
         public void Run_Excel(string fileName) => Process.Start(new ProcessStartInfo()
         {
@@ -2017,30 +2006,9 @@ namespace smartMain.CLS
             return (10 - (num + numArray1[8] * 5 / 10) % 10) % 10 == numArray1[9];
         }
 
-       
 
-        private static void ReleaseExcel(object obj)
-        {
-            try
-            {
-                if (obj == null)
-                    return;
-                Marshal.FinalReleaseComObject(obj);
-                obj = (object)null;
-            }
-            catch (Exception ex)
-            {
-                obj = (object)null;
-                throw ex;
-            }
-            finally
-            {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-            }
-        }
 
-        
+
 
         public DataGridView Copy_DataGirdView(
           DataGridView grd,

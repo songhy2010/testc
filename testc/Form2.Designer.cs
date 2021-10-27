@@ -38,6 +38,9 @@ namespace testc
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.GridRecord = new System.Windows.Forms.DataGridView();
+            this.코드 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.명칭 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.비고 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -45,10 +48,7 @@ namespace testc
             this.panel1 = new System.Windows.Forms.Panel();
             this.butSave = new System.Windows.Forms.Button();
             this.butNew = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.코드 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.명칭 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.비고 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.butDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GridRecord)).BeginInit();
             this.SuspendLayout();
             // 
@@ -91,6 +91,7 @@ namespace testc
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(277, 23);
             this.textBox3.TabIndex = 4;
+            this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.inputLast_KeyDown);
             // 
             // label1
             // 
@@ -126,9 +127,29 @@ namespace testc
             this.비고});
             this.GridRecord.Location = new System.Drawing.Point(443, 77);
             this.GridRecord.Name = "GridRecord";
+            this.GridRecord.RowHeadersVisible = false;
             this.GridRecord.RowTemplate.Height = 25;
+            this.GridRecord.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.GridRecord.Size = new System.Drawing.Size(345, 165);
             this.GridRecord.TabIndex = 7;
+            this.GridRecord.DoubleClick += new System.EventHandler(this.GridRecord_DoubleClick);
+            // 
+            // 코드
+            // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+            this.코드.DefaultCellStyle = dataGridViewCellStyle1;
+            this.코드.HeaderText = "코드";
+            this.코드.Name = "코드";
+            // 
+            // 명칭
+            // 
+            this.명칭.HeaderText = "명칭";
+            this.명칭.Name = "명칭";
+            // 
+            // 비고
+            // 
+            this.비고.HeaderText = "비고";
+            this.비고.Name = "비고";
             // 
             // textBox4
             // 
@@ -191,38 +212,22 @@ namespace testc
             this.butNew.Text = "신규";
             this.butNew.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // butDelete
             // 
-            this.button2.Location = new System.Drawing.Point(466, 1);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 15;
-            this.button2.Text = "삭제";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // 코드
-            // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-            this.코드.DefaultCellStyle = dataGridViewCellStyle1;
-            this.코드.HeaderText = "코드";
-            this.코드.Name = "코드";
-            // 
-            // 명칭
-            // 
-            this.명칭.HeaderText = "명칭";
-            this.명칭.Name = "명칭";
-            // 
-            // 비고
-            // 
-            this.비고.HeaderText = "비고";
-            this.비고.Name = "비고";
+            this.butDelete.Location = new System.Drawing.Point(466, 1);
+            this.butDelete.Name = "butDelete";
+            this.butDelete.Size = new System.Drawing.Size(75, 23);
+            this.butDelete.TabIndex = 15;
+            this.butDelete.Text = "삭제";
+            this.butDelete.UseVisualStyleBackColor = true;
+            this.butDelete.Click += new System.EventHandler(this.butDelete_Click);
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.butDelete);
             this.Controls.Add(this.butNew);
             this.Controls.Add(this.butSave);
             this.Controls.Add(this.butclose);
@@ -263,7 +268,7 @@ namespace testc
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button butSave;
         private System.Windows.Forms.Button butNew;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button butDelete;
         private System.Windows.Forms.DataGridViewTextBoxColumn 코드;
         private System.Windows.Forms.DataGridViewTextBoxColumn 명칭;
         private System.Windows.Forms.DataGridViewTextBoxColumn 비고;

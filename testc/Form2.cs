@@ -19,12 +19,12 @@ namespace testc
         private string s구분 = "1";
         private string s테이블명 = "P_거래처유형";
         private bool bData = false;
-        
+        private Panel panData;
         private int iCnt;
         private string strValue;
         private wnGConstant wnG = new wnGConstant();
-        private Panel panData;
-        private Panel panBody;
+        
+        
         public Form2()
         {
             InitializeComponent();
@@ -93,7 +93,7 @@ namespace testc
 
         private void init_InputBox(bool bNew)
         {
-            this.wnG.Form_Clear(this.panData.Controls);
+            this.wnG.Form_Clear(this.panel1.Controls);
             /*this.wnG.Form_Clear(this.panBody.Controls);*/
             if (bNew)
             {
@@ -300,7 +300,12 @@ namespace testc
 
         private void butDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("자료를 삭제하시겠습니까?", "삭제여부", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel || !this.deletePost())
+            if (this.textBox1.Text.Equals(""))
+            {
+                MessageBox.Show("삭제정보 선택해주세요");
+                return;
+            }
+            else if (MessageBox.Show("자료를 삭제하시겠습니까?", "삭제여부", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel || !this.deletePost())
                 return;
             this.init_InputBox(true);
             this.bindData(this.makeSearchCondition());
@@ -409,6 +414,12 @@ namespace testc
                 return;
             e.Handled = true;
             this.butSave.Focus();
+        }
+
+        private void butNew_Click(object sender, EventArgs e)
+        {
+            this.init_InputBox(true);
+            
         }
     }
 }

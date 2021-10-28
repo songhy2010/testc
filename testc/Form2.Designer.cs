@@ -50,6 +50,7 @@ namespace testc
             this.butNew = new System.Windows.Forms.Button();
             this.butDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GridRecord)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -73,21 +74,21 @@ namespace testc
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(94, 54);
+            this.textBox1.Location = new System.Drawing.Point(124, 18);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 23);
             this.textBox1.TabIndex = 2;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(94, 91);
+            this.textBox2.Location = new System.Drawing.Point(124, 55);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(277, 23);
             this.textBox2.TabIndex = 3;
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(94, 130);
+            this.textBox3.Location = new System.Drawing.Point(124, 94);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(277, 23);
             this.textBox3.TabIndex = 4;
@@ -96,7 +97,7 @@ namespace testc
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(30, 59);
+            this.label1.Location = new System.Drawing.Point(60, 23);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(31, 15);
             this.label1.TabIndex = 5;
@@ -105,7 +106,7 @@ namespace testc
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(30, 95);
+            this.label2.Location = new System.Drawing.Point(60, 59);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 15);
             this.label2.TabIndex = 6;
@@ -170,7 +171,7 @@ namespace testc
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(30, 134);
+            this.label4.Location = new System.Drawing.Point(60, 98);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(31, 15);
             this.label4.TabIndex = 10;
@@ -188,7 +189,13 @@ namespace testc
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(2, 41);
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Controls.Add(this.textBox3);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Location = new System.Drawing.Point(2, 77);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(435, 138);
             this.panel1.TabIndex = 12;
@@ -211,6 +218,7 @@ namespace testc
             this.butNew.TabIndex = 14;
             this.butNew.Text = "신규";
             this.butNew.UseVisualStyleBackColor = true;
+            this.butNew.Click += new System.EventHandler(this.butNew_Click);
             // 
             // butDelete
             // 
@@ -231,21 +239,17 @@ namespace testc
             this.Controls.Add(this.butNew);
             this.Controls.Add(this.butSave);
             this.Controls.Add(this.butclose);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.butSearch);
             this.Controls.Add(this.GridRecord);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
             this.Name = "Form2";
             this.Text = "Form2";
             ((System.ComponentModel.ISupportInitialize)(this.GridRecord)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

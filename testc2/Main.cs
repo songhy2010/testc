@@ -19,8 +19,8 @@ namespace testc2
 
         private void button2_Click(object sender, EventArgs e)
         {
-            uc매출처변상품단가복사 uc = new uc매출처변상품단가복사();
-            uc.Show();
+            uc매출처변상품단가복사 aa = new uc매출처변상품단가복사();
+            aa.Show();
         }
     }
 }

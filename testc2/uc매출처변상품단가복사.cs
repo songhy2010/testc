@@ -22,6 +22,10 @@ namespace testc2
         public uc매출처변상품단가복사()
         {
             InitializeComponent();
+            Common.p_strConn = "DATA SOURCE = 218.38.14.33,14332"
+                + ";INITIAL CATALOG = test"
+                + ";PERSIST SECURITY INFO = false;USER ID = sa"
+                + ";PASSWORD = ##wkdxj123;";
         }
 
         private void butSearch_Click(object sender, EventArgs e) => this.bindData(this.makeSearchCondition());
